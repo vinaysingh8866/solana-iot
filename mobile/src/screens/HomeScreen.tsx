@@ -16,20 +16,12 @@ export function HomeScreen() {
         style={{ fontWeight: "bold", marginBottom: 12 }}
         variant="displaySmall"
       >
-        Solana Mobile Expo Template
+        
       </Text>
       {selectedAccount ? (
         <AccountDetailFeature />
       ) : (
         <>
-          <Section
-            title="Solana SDKs"
-            description="Configured with Solana SDKs like Mobile Wallet Adapter and web3.js."
-          />
-          <Section
-            title="UI Kit and Navigation"
-            description="Utilizes React Native Paper components and the React Native Navigation library."
-          />
           <Section
             title="Get started!"
             description="Connect or Sign in with Solana (SIWS) to link your wallet account."

@@ -30,7 +30,7 @@ export function HomeNavigator() {
                   color={color}
                 />
               );
-            case "Blank":
+            case "Wallet":
               return (
                 <MaterialCommunityIcon
                   name={
@@ -44,8 +44,8 @@ export function HomeNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Blank" component={BlankScreen} />
+      <Tab.Screen name="Home" component={BlankScreen} />
+      <Tab.Screen name="Wallet" component={HomeScreen} />
     </Tab.Navigator>
   );
 }
