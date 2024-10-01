@@ -4,6 +4,7 @@ from flask_mqtt import Mqtt
 from flask_migrate import Migrate
 from config import Config
 from web3 import Web3
+import logging
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -16,6 +17,16 @@ migrate = Migrate(app, db)
 
 # Initialize Web3
 w3 = Web3(Web3.HTTPProvider(app.config['WEB3_PROVIDER']))
+
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler("app.log"),
+        logging.StreamHandler()
+    ]
+)
 
 # Import the models and routes
 from app import models, routes, transaction_listener
