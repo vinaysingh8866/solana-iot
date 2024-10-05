@@ -18,6 +18,6 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Solana Configuration
-    SOLANA_RPC_ENDPOINT = os.getenv('SOLANA_RPC_ENDPOINT', 'https://api.mainnet-beta.solana.com')
-    SOLANA_WS_ENDPOINT = os.getenv('SOLANA_WS_ENDPOINT', 'wss://api.mainnet-beta.solana.com')
+    SOLANA_RPC_ENDPOINT = os.getenv('SOLANA_RPC_ENDPOINT', 'https://api.devnet.solana.com')
+    SOLANA_WS_ENDPOINT = os.getenv('SOLANA_WS_ENDPOINT', 'wss://api.devnet.solana.com')
     MONITORED_WALLET = os.getenv('MONITORED_WALLET', 'YourSolanaWalletAddressHere')
