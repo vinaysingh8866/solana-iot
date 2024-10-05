@@ -5,6 +5,7 @@ import {
   LAMPORTS_PER_SOL,
   PublicKey,
   SystemProgram,
+  Transaction,
   TransactionMessage,
   TransactionSignature,
   VersionedTransaction,
@@ -79,12 +80,21 @@ export function useTransferSol({ address }: { address: PublicKey }) {
     mutationFn: async (input: { destination: PublicKey; amount: number }) => {
       let signature: TransactionSignature = "";
       try {
-        const { transaction, latestBlockhash } = await createTransaction({
+        console.log(input);
+        const { tt, latestBlockhash } = await createTransaction({
           publicKey: address,
           destination: input.destination,
           amount: input.amount,
           connection,
         });
+        const transfer = SystemProgram.transfer({
+          fromPubkey: address,
+          toPubkey: input.destination,
+          lamports: input.amount * LAMPORTS_PER_SOL,
+        });
+
+        const transaction = new Transaction().add(transfer);
+        
 
         // Send transaction and await for signature
         signature = await wallet.signAndSendTransaction(transaction);
