@@ -1,5 +1,5 @@
 Flask==2.0.0
-Werkzeug==2.0.3
+Werkzeug==3.0.3
 Flask-MQTT==1.2.1
 Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
