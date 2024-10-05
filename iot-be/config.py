@@ -20,4 +20,4 @@ class Config:
     # Solana Configuration
     SOLANA_RPC_ENDPOINT = os.getenv('SOLANA_RPC_ENDPOINT', 'https://api.devnet.solana.com')
     SOLANA_WS_ENDPOINT = os.getenv('SOLANA_WS_ENDPOINT', 'wss://api.devnet.solana.com')
-    MONITORED_WALLET = os.getenv('MONITORED_WALLET', 'YourSolanaWalletAddressHere')
+    MONITORED_WALLET = os.getenv('MONITORED_WALLET', '8q8AFWpTgk9Up5hQmj1xoc3DTQgChfgdR6ciZDFUB7dw')
