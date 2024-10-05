@@ -32,6 +32,10 @@ def create_app():
     from .routes import bp as routes_bp
     app.register_blueprint(routes_bp)
 
+    # Create the database tables before starting the blockchain listener
+    with app.app_context():
+        db.create_all()
+
     # Start the blockchain listener
     from .transaction_listener import start_blockchain_listener
     start_blockchain_listener(app)

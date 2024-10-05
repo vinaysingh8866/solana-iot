@@ -13,11 +13,11 @@ class Config:
     MQTT_TLS_CA_CERTS = os.getenv('MQTT_TLS_CA_CERTS', 'ca_certificate.crt')
     MQTT_TLS_VERSION = 2
 
-    # SQLAlchemy Database Configuration (using SQLite)
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    # Database configuration
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///your_database.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Solana Configuration
-    SOLANA_RPC_ENDPOINT = os.getenv('SOLANA_RPC_ENDPOINT', 'https://api.devnet.solana.com')
-    SOLANA_WS_ENDPOINT = os.getenv('SOLANA_WS_ENDPOINT', 'wss://api.devnet.solana.com')
+    SOLANA_RPC_ENDPOINT = os.getenv('SOLANA_RPC_ENDPOINT', 'https://solana-devnet.g.alchemy.com/v2/1Cu2ukgp7ApHb_TmgmcmR0UkMmvEuJGj')
+    SOLANA_WS_ENDPOINT = os.getenv('SOLANA_WS_ENDPOINT', 'wss://solana-devnet.g.alchemy.com/v2/1Cu2ukgp7ApHb_TmgmcmR0UkMmvEuJGj')
     MONITORED_WALLET = os.getenv('MONITORED_WALLET', '8q8AFWpTgk9Up5hQmj1xoc3DTQgChfgdR6ciZDFUB7dw')
