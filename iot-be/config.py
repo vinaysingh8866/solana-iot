@@ -17,7 +17,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Web3 Configuration
-    WEB3_PROVIDER = os.getenv('WEB3_PROVIDER', 'https://YOUR_INFURA_OR_ALCHEMY_ENDPOINT')
-    MONITORED_WALLET = os.getenv('MONITORED_WALLET', '0xYourWalletAddressHere').lower()
-    TRANSACTION_CONFIRMATIONS = int(os.getenv('TRANSACTION_CONFIRMATIONS', 3))  # Wait for 3 confirmations
+    # Solana Configuration
+    SOLANA_RPC_ENDPOINT = os.getenv('SOLANA_RPC_ENDPOINT', 'https://api.mainnet-beta.solana.com')
+    SOLANA_WS_ENDPOINT = os.getenv('SOLANA_WS_ENDPOINT', 'wss://api.mainnet-beta.solana.com')
+    MONITORED_WALLET = os.getenv('MONITORED_WALLET', 'YourSolanaWalletAddressHere')

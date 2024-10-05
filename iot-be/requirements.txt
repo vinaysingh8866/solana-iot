@@ -1,5 +1,6 @@
-Flask
-Flask-SQLAlchemy
-Flask-Migrate
-Flask-MQTT
-web3
+Flask==2.0.2
+Flask-MQTT==1.0.9
+Flask-Migrate==3.1.0
+Flask-SQLAlchemy==2.5.1
+solana==0.21.0
+SQLAlchemy==1.4.22
