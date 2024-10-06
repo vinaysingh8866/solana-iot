@@ -15,20 +15,21 @@ from config import Config
 monitored_wallet_address = Config.MONITORED_WALLET
 monitored_wallet_pubkey = Pubkey.from_string(monitored_wallet_address)
 solana_rpc_endpoint = Config.SOLANA_RPC_ENDPOINT
-
+print(monitored_wallet_pubkey)
 async def check_wallet_transactions(app):
     async with AsyncClient(solana_rpc_endpoint) as client:
         last_signature = None
         while True:
-            try:
+            # try:
+                print("in try")
                 # Fetch confirmed signatures for the account
                 resp = await client.get_signatures_for_address(
                     monitored_wallet_pubkey,
-                    limit=1,
                     commitment='confirmed',
-                    before=last_signature
+                    before=last_signature,
+                    
                 )
-
+                # print(resp)
                 signatures = resp.value
                 if not signatures:
                     logging.info("No new signatures found.")
@@ -52,36 +53,45 @@ async def check_wallet_transactions(app):
                 # Wait for 1 second before polling again
                 await asyncio.sleep(1)
 
-            except Exception as e:
-                logging.error(f"Exception in check_wallet_transactions: {e}")
-                await asyncio.sleep(1)
-
+            # except Exception as e:
+            #     logging.error(f"Exception in check_wallet_transactions: {e}")
+            #     await asyncio.sleep(1)
+import json
 async def process_transaction(signature_str, app, client):
     with app.app_context():
-        try:
+        # try:
             # Convert the signature string back to a Signature object
+            
             signature_obj = Signature.from_string(signature_str)
-
+            
             # Get the transaction details
+            print("processing ")
             tx_resp = await client.get_transaction(
                 signature_obj,  # Pass the Signature object
                 encoding='jsonParsed',
-                commitment='confirmed'
+                commitment='confirmed',
+                max_supported_transaction_version=0
+                
             )
-
-            tx = tx_resp.value
+            
+            # print(tx_resp)
+            tx = tx_resp.value.to_json()
+            tx = json.loads(tx)
+            print(tx)
+            # {"slot":330936604,"transaction":{"signatures":["4t3gBURULH5GiJsrHxnt4Jugna31kG7QUXTN7CZZTV7kX9EdJEtYLt9RbVad1LsaCmpXWiaj9b5rpRfaPHhjtksA"],"message":{"accountKeys":[{"pubkey":"GRcfGGcTzKwyPQRRNTUDUkqcAFqVEqnWpgf9GThW6bNj","writable":true,"signer":true},{"pubkey":"8q8AFWpTgk9Up5hQmj1xoc3DTQgChfgdR6ciZDFUB7dw","writable":true,"signer":false},{"pubkey":"11111111111111111111111111111111","writable":false,"signer":false},{"pubkey":"ComputeBudget111111111111111111111111111111","writable":false,"signer":false}],"recentBlockhash":"9R3BRGJLDQYUFkxS1XkuDhEoMdtFHq63X8ziyKTDXSv3","instructions":[{"programId":"ComputeBudget111111111111111111111111111111","accounts":[],"data":"3atJtxCCtbsV"},{"programId":"ComputeBudget111111111111111111111111111111","accounts":[],"data":"Fj2Eoy"},{"program":"system","programId":"11111111111111111111111111111111","parsed":{"info":{"destination":"8q8AFWpTgk9Up5hQmj1xoc3DTQgChfgdR6ciZDFUB7dw","lamports":100000000,"source":"GRcfGGcTzKwyPQRRNTUDUkqcAFqVEqnWpgf9GThW6bNj"},"type":"transfer"}}],"addressTableLookups":null}},"meta":{"err":null,"status":{"Ok":null},"fee":85000,"preBalances":[1969985000,30000000,1,1],"postBalances":[1869900000,130000000,1,1],"innerInstructions":[],"logMessages":["Program ComputeBudget111111111111111111111111111111 invoke [1]","Program ComputeBudget111111111111111111111111111111 success","Program ComputeBudget111111111111111111111111111111 invoke [1]","Program ComputeBudget111111111111111111111111111111 success","Program 11111111111111111111111111111111 invoke [1]","Program 11111111111111111111111111111111 success"],"preTokenBalances":[],"postTokenBalances":[],"rewards":[]},"version":"legacy","blockTime":1728188747}
             if tx is None:
                 logging.error(f"Transaction {signature_str} not found.")
                 return
 
-            # Check if the transaction was successful
-            if tx['meta']['err'] is not None:
-                logging.info(f"Transaction {signature_str} failed.")
+            #check for error
+            if tx.get('error'):
+                logging.error(f"Error fetching transaction {signature_str}: {tx['error']}")
                 return
+            
 
             # Process the transaction
             instructions = tx['transaction']['message']['instructions']
-
+            
             for instruction in instructions:
                 program = instruction.get('program')
                 parsed = instruction.get('parsed')
@@ -129,9 +139,9 @@ async def process_transaction(signature_str, app, client):
                         else:
                             logging.info(f"Transaction of {value_in_sol} SOL is below the threshold")
                         return
-        except Exception as e:
-            logging.error(f"Exception in process_transaction: {e}")
-            return
+        # except Exception as e:
+        #     logging.error(f"Exception in process_transaction: {e}")
+        #     return
 
 def publish_device_enable(app):
     with app.app_context():
