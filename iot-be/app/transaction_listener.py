@@ -51,7 +51,7 @@ async def check_wallet_transactions(app):
                     last_signature = signature
 
                 # Wait for 1 second before polling again
-                await asyncio.sleep(1)
+                await asyncio.sleep(3)
 
             # except Exception as e:
             #     logging.error(f"Exception in check_wallet_transactions: {e}")
