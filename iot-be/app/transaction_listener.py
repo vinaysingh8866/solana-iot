@@ -20,7 +20,7 @@ async def check_wallet_transactions(app):
     async with AsyncClient(solana_rpc_endpoint) as client:
         last_signature = None
         while True:
-            # try:
+            try:
                 print("in try")
                 # Fetch confirmed signatures for the account
                 resp = await client.get_signatures_for_address(
@@ -53,9 +53,9 @@ async def check_wallet_transactions(app):
                 # Wait for 1 second before polling again
                 time.sleep(3)
 
-            # except Exception as e:
-            #     logging.error(f"Exception in check_wallet_transactions: {e}")
-            #     await asyncio.sleep(1)
+            except Exception as e:
+                logging.error(f"Exception in check_wallet_transactions: {e}")
+                await asyncio.sleep(1)
 import json
 async def process_transaction(signature_str, app, client):
     with app.app_context():
