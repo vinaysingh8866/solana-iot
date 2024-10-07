@@ -10,7 +10,7 @@ from solana.rpc.async_api import AsyncClient
 from . import mqtt_client, db
 from .models import Transaction, Session
 from config import Config
-
+import time
 # Configuration
 monitored_wallet_address = Config.MONITORED_WALLET
 monitored_wallet_pubkey = Pubkey.from_string(monitored_wallet_address)
@@ -51,7 +51,7 @@ async def check_wallet_transactions(app):
                     last_signature = signature
 
                 # Wait for 1 second before polling again
-                await asyncio.sleep(3)
+                time.sleep(3)
 
             # except Exception as e:
             #     logging.error(f"Exception in check_wallet_transactions: {e}")
